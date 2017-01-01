@@ -1,3 +1,4 @@
+
 "use strict";
 
 (function () {
@@ -6,39 +7,16 @@
 
     function intersect(...args) {
 
-        let resultArray = [],
-            arrays      = args.filter((argument) => Array.isArray(argument)),   // mb it is not an Array ?
-            firstArray  = removeDuplicates(arrays[0]);
+        let searchList = args
+            .filter((argument) => Array.isArray(argument)) // mb it is not an Array ?
+            .map((element) => [...new Set(element)])    // unification
+            .sort((a, b) => a.length - b.length);  // first array is the smallest
 
-        firstArray.forEach((value) => {
-
-            let i = 0;
-
-            while (i < arrays.length && searchValueInNextArray(value, i)) { // if has 2 or > consilience search further
-
-                if (i === arrays.length - 1) {
-                    return resultArray.push(value);
-                }
-
-                i++;
-
-            }
-
-        });
-
-        function searchValueInNextArray(value, index) {
-            return arrays[index].indexOf(value) != -1
-        }
-
-        function removeDuplicates(array) {
-            return array.filter((item,index) => array.indexOf(item) == index);
-        }
-
-        return resultArray;
+        return searchList.shift().filter((v) => searchList.every((a) => a.indexOf(v) !== -1));  // check if every array contains elements of first array
 
     }
 
-    let res = intersect([3,4,5,6,2,2],[1,2,3],[2,4,8,9,2,3,3,3,4]);
+    let res = intersect([3,4,5,6,2,2],[3,2,3],[2,4,8,9,2,3,3,3,4]);
 
     console.log('result:', res);
 

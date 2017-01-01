@@ -44,7 +44,10 @@
 /* 0 */
 /***/ function(module, exports) {
 
+	
 	"use strict";
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	(function () {
 
@@ -55,42 +58,24 @@
 	            args[_key] = arguments[_key];
 	        }
 
-	        var resultArray = [],
-	            arrays = args.filter(function (argument) {
+	        var searchList = args.filter(function (argument) {
 	            return Array.isArray(argument);
-	        }),
-	            // mb it is not an Array ?
-	        firstArray = removeDuplicates(arrays[0]);
+	        }) // mb it is not an Array ?
+	        .map(function (element) {
+	            return [].concat(_toConsumableArray(new Set(element)));
+	        }) // unification
+	        .sort(function (a, b) {
+	            return a.length - b.length;
+	        }); // first array is the smallest
 
-	        firstArray.forEach(function (value) {
-
-	            var i = 0;
-
-	            while (i < arrays.length && searchValueInNextArray(value, i)) {
-	                // if has 2 or > consilience search further
-
-	                if (i === arrays.length - 1) {
-	                    return resultArray.push(value);
-	                }
-
-	                i++;
-	            }
-	        });
-
-	        function searchValueInNextArray(value, index) {
-	            return arrays[index].indexOf(value) != -1;
-	        }
-
-	        function removeDuplicates(array) {
-	            return array.filter(function (item, index) {
-	                return array.indexOf(item) == index;
+	        return searchList.shift().filter(function (v) {
+	            return searchList.every(function (a) {
+	                return a.indexOf(v) !== -1;
 	            });
-	        }
-
-	        return resultArray;
+	        }); // check if every array contains elements of first array
 	    }
 
-	    var res = intersect([3, 4, 5, 6, 2, 2], [1, 2, 3], [2, 4, 8, 9, 2, 3, 3, 3, 4]);
+	    var res = intersect([3, 4, 5, 6, 2, 2], [3, 2, 3], [2, 4, 8, 9, 2, 3, 3, 3, 4]);
 
 	    console.log('result:', res);
 
