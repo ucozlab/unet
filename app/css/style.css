@@ -1,0 +1,21 @@
+.center {
+    padding-top: 50px;
+}
+.table {
+    display: table;
+    width: 1040px;
+    margin: auto;
+}
+.table-cell {
+    display: table-cell;
+    vertical-align: top;
+}
+.code {
+    text-align: left;
+    display: inline-block;
+    padding: 10px;
+    background: #e2d9d9;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+}
+canvas {background: #f2f2f2}

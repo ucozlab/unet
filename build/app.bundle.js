@@ -42,47 +42,122 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	
 	"use strict";
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	var _rectangleApp = __webpack_require__(3);
 
 	(function () {
 
-	    var startTimer = performance.now();
+	    var rectangleCount = 20,
+	        btn = document.getElementById('renderBtn'),
+	        canvas = document.getElementById('canvas'),
+	        code = document.getElementById('codeBlock');
 
-	    function intersect() {
-	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	            args[_key] = arguments[_key];
-	        }
+	    btn.addEventListener('click', function () {
+	        return new _rectangleApp.RectangleApp(rectangleCount, canvas, code);
+	    });
+	})();
 
-	        var searchList = args.filter(function (argument) {
-	            return Array.isArray(argument);
-	        }) // mb it is not an Array ?
-	        .map(function (element) {
-	            return [].concat(_toConsumableArray(new Set(element)));
-	        }) // unification
-	        .sort(function (a, b) {
-	            return a.length - b.length;
-	        }); // first array is the smallest
+/***/ },
+/* 1 */,
+/* 2 */
+/***/ function(module, exports) {
 
-	        return searchList.shift().filter(function (v) {
-	            return searchList.every(function (a) {
-	                return a.indexOf(v) !== -1;
-	            });
-	        }); // check if every array contains elements of first array
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Rectangle = exports.Rectangle = function Rectangle() {
+	    _classCallCheck(this, Rectangle);
+	};
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.RectangleApp = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _rectangle = __webpack_require__(2);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var RectangleApp = exports.RectangleApp = function () {
+	    function RectangleApp(rectangleCount, canvas, code) {
+	        _classCallCheck(this, RectangleApp);
+
+	        this.rectangleCount = rectangleCount;
+	        this.canvas = canvas;
+	        this.code = code;
+
+	        this.buildApp();
 	    }
 
-	    var res = intersect([3, 4, 5, 6, 2, 2], [3, 2, 3], [2, 4, 8, 9, 2, 3, 3, 3, 4]);
+	    _createClass(RectangleApp, [{
+	        key: 'buildApp',
+	        value: function buildApp() {
 
-	    console.log('result:', res);
+	            this.arrays = this.generateArrays();
+	            this.code.innerHTML = this.buildString();
 
-	    var stopTimer = performance.now();
+	            this.renderCanvas();
+	        }
+	    }, {
+	        key: 'generateArrays',
+	        value: function generateArrays() {
 
-	    console.log('It took ' + (stopTimer - startTimer) + ' ms.');
-	})();
+	            var i = 0,
+	                array = [];
+
+	            while (i < this.rectangleCount) {
+	                array.push(this.generateArray());
+	                i++;
+	            }
+
+	            return array;
+	        }
+	    }, {
+	        key: 'generateArray',
+	        value: function generateArray() {
+
+	            var firstCoord = Math.floor(Math.random() * 100 + 1);
+
+	            return [Math.floor(Math.random() * 100 + 1), Math.floor(Math.random() * 100 + 1), Math.floor(Math.random() * 100 + 1), Math.floor(Math.random() * 100 + 1), Math.floor(Math.random() * 360 + 1)];
+	        }
+	    }, {
+	        key: 'buildString',
+	        value: function buildString() {
+
+	            var string = '';
+
+	            this.arrays.forEach(function (val, index) {
+
+	                string += '[' + val + ']\n';
+
+	                if ((index + 1) % 2 === 0) {
+	                    string += '\n';
+	                }
+	            });
+
+	            return string;
+	        }
+	    }]);
+
+	    return RectangleApp;
+	}();
 
 /***/ }
 /******/ ]);
