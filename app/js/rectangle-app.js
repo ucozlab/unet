@@ -1,4 +1,5 @@
 import {Rectangle} from './rectangle';
+import {RenderCanvas} from './canvas';
 
 export class RectangleApp {
 
@@ -16,7 +17,7 @@ export class RectangleApp {
         this.arrays = this.generateArrays();
         this.code.innerHTML = this.buildString();
 
-        this.renderCanvas();
+        return new RenderCanvas(this.canvas, this.arrays);
     }
 
     generateArrays () {
@@ -25,25 +26,11 @@ export class RectangleApp {
             array = [];
 
         while (i < this.rectangleCount) {
-            array.push(this.generateArray());
+            array.push(new Rectangle());
             i++;
         }
 
         return array;
-    }
-
-    generateArray() {
-
-        let firstCoord = Math.floor((Math.random() * 100) + 1);
-
-        return [
-            Math.floor((Math.random() * 100) + 1),
-            Math.floor((Math.random() * 100) + 1),
-            Math.floor((Math.random() * 100) + 1),
-            Math.floor((Math.random() * 100) + 1),
-            Math.floor((Math.random() * 360) + 1)
-        ]
-
     }
 
     buildString() {
